@@ -64,25 +64,30 @@ public class Robot extends TimedRobot {
    * below with additional strings. If using the SendableChooser make sure to add them to the
    * chooser code above as well.
    */
+ 
+  private Timer autoTimer = new Timer();        // makes timer named autoTimer
   @Override
   public void autonomousInit() {
-    m_autoSelected = m_chooser.getSelected();
-    // m_autoSelected = SmartDashboard.getString("Auto Selector", kDefaultAuto);
-    System.out.println("Auto selected: " + m_autoSelected);
+    autoTimer.reset();
+    autoTimer.start();
   }
 
   /** This function is called periodically during autonomous. */
-  @Override
-  public void autonomousPeriodic() {
-    switch (m_autoSelected) {
-      case kCustomAuto:
-        break;
-      case kDefaultAuto:
-      default: 
-        // Put default auto code here
-        break;
-    }
-  }
+  
+    @Override
+    public void autonomousPeriodic() {
+      if (autoTimer.get() < 5.0) {
+        m_drive.drive.arcadeDrive(0.5, 0); // for first five seconds go forward at half speed
+      }
+      else if (autoTimer.get() < 8.0) {
+        m_drive.drive.arcadeDrive(0, 0.5); // for next three second turn right at half speed (just cause it can)
+      }
+      else {
+        m_drive.drive.arcadeDrive(0, 0); // if nothing requires the timer then stop
+      }
+  } 
+
+
 
   /** This function is called once when teleop is enabled. */
   @Override
