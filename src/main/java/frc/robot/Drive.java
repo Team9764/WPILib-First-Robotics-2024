@@ -37,7 +37,7 @@ public class Drive {
 
     // private final Motor
 
-    private final DifferentialDrive drive = new DifferentialDrive(lR, rR); // Makes the motors follow eachother
+    public final DifferentialDrive drive = new DifferentialDrive(lR, rR); // 
 
     void drive(double throttle, double rotation) {
         lF.follow(lR);
@@ -47,4 +47,3 @@ public class Drive {
 
 
 }
-// if anyone is seeing this please help me
