@@ -77,10 +77,13 @@ public class Robot extends TimedRobot {
     @Override
     public void autonomousPeriodic() {
       if (autoTimer.get() < 5.0) {
-        m_drive.drive.arcadeDrive(0.5, 0); // for first five seconds go forward at half speed
+        m_drive.drive.arcadeDrive(-0.5, 0); // for first five seconds go forward at half speed
       }
-      else if (autoTimer.get() < 8.0) {
-        m_drive.drive.arcadeDrive(0, 0.5); // for next three second turn right at half speed (just cause it can)
+      else if (autoTimer.get() < 7.0) {
+        m_drive.drive.arcadeDrive(0, -0.5); // for next two seconds turn right at half speed (just cause it can)
+      }
+      else if (autoTimer.get() < 9.0) {
+        m_drive.drive.arcadeDrive(0, 0.5); // for nest two seconds turn left at half speed
       }
       else {
         m_drive.drive.arcadeDrive(0, 0); // if nothing requires the timer then stop
@@ -98,6 +101,7 @@ public class Robot extends TimedRobot {
   public void teleopPeriodic() {
     m_drive.drive(xbox1.getLeftY(), xbox1.getRightX());
     m_shooter.shooterOn(xbox1.getAButtonPressed());
+    m_shooter.shooterOnHalf(xbox1.getXButtonPressed());
    // m_autoTest.autoTest(xbox1.getXButtonPressed());
       //lets xbox controller be used left sick up and down right for turning and A for shoot
   }
@@ -110,7 +114,7 @@ public class Robot extends TimedRobot {
   @Override
   public void disabledPeriodic() {}
 
-  /** This function is called once when test mode is enabled. */
+  /** This function is  called once when test mode is enabled. */
   @Override
   public void testInit() {}
 
