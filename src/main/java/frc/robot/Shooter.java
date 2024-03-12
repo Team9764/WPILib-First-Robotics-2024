@@ -14,10 +14,17 @@ import com.revrobotics.CANSparkMax;
 public class Shooter {
     private final CANSparkMax shooterMotor = new CANSparkMax(Constants.shoot, MotorType.kBrushless);
 
-
+   public void shooterOnHalf(boolean getXButtonPressed) {
+      if (getXButtonPressed) {
+         shooterMotor.set(0.5);
+      }
+      else {
+         shooterMotor.set(0);
+      }
+   }
 
    public void shooterOn(boolean getAButtonPressed) {
-      if (getAButtonPressed) {
+      if (getAButtonPressed ) {
          shooterMotor.set(1);//sets shooter to full speed
       } else {
          shooterMotor.set(0);//sets shooter to no speed
