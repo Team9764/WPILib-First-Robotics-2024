@@ -5,37 +5,27 @@
 package frc.robot;
 
 import com.revrobotics.CANSparkLowLevel.MotorType;
+import edu.wpi.first.wpilibj2.command.Command;
 import com.revrobotics.CANSparkMax;
-//import edu.wpi.first.wpilibj.XboxController;
 
-
-
-/** Add your docs here. */
-public class Shooter {
-    private final CANSparkMax shooterMotor = new CANSparkMax(Constants.shoot, MotorType.kBrushless);
-   public void ShooterBringRing(boolean getBButtonPressed) {
-      if (getBButtonPressed) {
-         shooterMotor.set(-0.1);
-      }
-      else {
-         shooterMotor.set(0);
+public class Shooter extends Command{
+   
+    final CANSparkMax shooterMotor = new CANSparkMax(Constants.shootOne, MotorType.kBrushed);
+    final CANSparkMax shooterMotor2 = new CANSparkMax(Constants.shootTwo, MotorType.kBrushed);
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+   public void shooterOn(double power) {
+      shooterMotor.set(power);
+      shooterMotor2.set(power);
+   }
+   public void rampUp(boolean state){
+      if (state == true){
+         shooterMotor.set(-1);
       }
    }
-   public void shooterOnHalf(boolean getXButtonPressed) {
-      if (getXButtonPressed) {
-         shooterMotor.set(0.5);
+   public void indexUp(  boolean state2){
+      if (state2 == true){
+         shooterMotor2.set(-1);
       }
-      else {
-         shooterMotor.set(0);
-      }
-   }
-
-   public void shooterOn(boolean getAButtonPressed) {
-      if (getAButtonPressed ) {
-         shooterMotor.set(1);//sets shooter to full speed
-      } else {
-         shooterMotor.set(0);//sets shooter to no speed
-      }
-      
    }
 }
+
