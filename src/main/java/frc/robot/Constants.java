@@ -4,18 +4,11 @@
 
 package frc.robot;
 
-/** Add your docs here. */
 public class Constants {
     public static int lFMotor = 1;
     public static int lRMotor = 2;
     public static int rFMotor = 3;
     public static int rRMotor = 4;
-    public static int shoot = 5;
+    public static int shootTwo = 7;
+    public static int shootOne = 6;
 }
-
-
-//
-// A button to shoot
-// Left Joystick for forward/ back
-// Right Joystick for turn
-//
