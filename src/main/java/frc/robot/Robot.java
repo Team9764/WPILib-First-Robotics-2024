@@ -4,14 +4,8 @@
 
 package frc.robot;
 
-
-import com.revrobotics.CANSparkMax;
-import com.revrobotics.CANSparkLowLevel.MotorType;
-
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj.drive.DifferentialDrive;
-import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.Timer;
 
@@ -22,10 +16,10 @@ import edu.wpi.first.wpilibj.Timer;
  * project.
  */
 public class Robot extends TimedRobot {
-  private static final String kDefaultAuto = "Default";
-  private static final String kCustomAuto = "My Auto";
-  private String m_autoSelected;
-  private final SendableChooser<String> m_chooser = new SendableChooser<>();
+//  private static final String kDefaultAuto = "Default";
+//  private static final String kCustomAuto = "My Auto";
+//  private String m_autoSelected;
+//  private final SendableChooser<String> m_chooser = new SendableChooser<>();
   private static final XboxController xbox1 = new XboxController(0);
   private static final Drive m_drive = new Drive();
   private static final Shooter m_shooter = new Shooter();
@@ -39,9 +33,9 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotInit() {
-    m_chooser.setDefaultOption("Default Auto", kDefaultAuto);
-    m_chooser.addOption("My Auto", kCustomAuto);
-    SmartDashboard.putData("Auto choices", m_chooser);
+    //m_chooser.setDefaultOption("Default Auto", kDefaultAuto);
+    //m_chooser.addOption("My Auto", kCustomAuto);
+    //SmartDashboard.putData("Auto choices", m_chooser);
   }
 
   /**
@@ -76,18 +70,34 @@ public class Robot extends TimedRobot {
   
     @Override
     public void autonomousPeriodic() {
-      if (autoTimer.get() < 5.0) {
-        m_drive.drive.arcadeDrive(-0.5, 0); // for first five seconds go forward at half speed
+      if (autoTimer.get() < 1.0) {
+        m_shooter.shooterMotor.set(-1);
       }
-      else if (autoTimer.get() < 7.0) {
-        m_drive.drive.arcadeDrive(0, -0.5); // for next two seconds turn right at half speed (just cause it can)
+      else if (autoTimer.get() < 2.5) {
+        m_shooter.shooterMotor.set(-1);
+        m_shooter.shooterMotor2.set(-1);
       }
-      else if (autoTimer.get() < 9.0) {
-        m_drive.drive.arcadeDrive(0, 0.5); // for nest two seconds turn left at half speed
+      else if (autoTimer.get() < 3.75) {
+        m_drive.drive.arcadeDrive(-0.75, 0);
+        m_shooter.shooterMotor.set(0);
+        m_shooter.shooterMotor.set(0);
       }
       else {
-        m_drive.drive.arcadeDrive(0, 0); // if nothing requires the timer then stop
+        m_shooter.shooterMotor.set(0);
+        m_shooter.shooterMotor2.set( 0);
+        m_drive.drive.arcadeDrive(0, 0);
       }
+      
+      
+      // if (autoTimer.get() < 4.5) {
+      //   m_drive.drive.arcadeDrive(0.75, 0); // for first five seconds go forward at half speed
+      // }
+      // else if (autoTimer.get() < 8.0) {
+      //   m_drive.drive.arcadeDrive(0, 0.5); // for nest two seconds turn left at half speed
+      // }
+      // else {
+      //   m_drive.drive.arcadeDrive(0, 0); // if nothing requires the timer then stop
+      // }
   } 
 
 
@@ -100,11 +110,10 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopPeriodic() {
     m_drive.drive(xbox1.getLeftY(), xbox1.getRightX());
-    m_shooter.shooterOn(xbox1.getAButtonPressed());
-    m_shooter.shooterOnHalf(xbox1.getXButtonPressed());
-    m_shooter.ShooterBringRing(xbox1.getBButtonPressed());
-   // m_autoTest.autoTest(xbox1.getXButtonPressed());
-      //lets xbox controller be used left sick up and down right for turning and A for shoot
+    SmartDashboard.putNumber("Right Trigger", xbox1.getRightTriggerAxis());
+    m_shooter.shooterOn(xbox1.getRightTriggerAxis() - xbox1.getLeftTriggerAxis());
+    m_shooter.rampUp(xbox1.getRightBumper());
+    m_shooter.indexUp(xbox1.getLeftBumper());
   }
 
   /** This function is called once when the robot is disabled. */
